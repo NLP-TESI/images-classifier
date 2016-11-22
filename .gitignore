@@ -1,0 +1,8 @@
+# temp files
+*~
+
+# compiled python
+*.pyc
+
+# processed file
+hist.json
