@@ -6,3 +6,6 @@
 
 # processed file
 hist.json
+
+# jypiter files
+*.ipynb

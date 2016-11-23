@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[8]:
+# In[1]:
 
 from generate_hist import *
 
@@ -12,14 +12,14 @@ import os
 import json
 
 
-# In[9]:
+# In[2]:
 
 def myFilter(img):
     img_gauss1 = cv2.GaussianBlur(img,(5,5), 1)
     return cv2.GaussianBlur(img_gauss1,(5,5), 1)
 
 
-# In[10]:
+# In[3]:
 
 # 5) processing image dataset to generate a feature vec
 test_folder = "./img/cifar-10/test"
@@ -35,8 +35,8 @@ for name in class_names:
 
     # transform each file into a feature vector
     for file_name in files:
-        vec = generate_vector(test_folder+"/"+name+"/"+file_name, filter=myFilter)
-        X.append(vec.tolist())
+        vec = generate_vector(test_folder+"/"+name+"/"+file_name, filter=myFilter, togray=True)
+        X.append(vec)
 
         y_vec = [0.0] * len(class_names)
         y_vec[class_names.index(name)] = 1.0

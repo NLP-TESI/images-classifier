@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[9]:
+# In[1]:
 
 from load_hist import *
 
@@ -9,7 +9,7 @@ import numpy as np
 import tensorflow as tf
 
 
-# In[10]:
+# In[2]:
 
 # help function to sampling data
 def get_sample(num_samples, X_data, y_data):
@@ -26,29 +26,42 @@ def get_sample(num_samples, X_data, y_data):
     return X_sample, y_sample
 
 
-# In[11]:
+# In[3]:
 
 ######################## creating the model architecture #######################################
 
+input_size = len(X_train[0])
+label_size = len(y_train[0])
+
+print "input size: ", input_size, ", label size: ", label_size
 
 # input placeholder
-x = tf.placeholder(tf.float32, [None, 768])
+x = tf.placeholder(tf.float32, [None, input_size])
 
 # output placeholder
-y_ = tf.placeholder(tf.float32, [None, 10])
+y_ = tf.placeholder(tf.float32, [None, label_size])
 
+num_nodes_layer1 = 500
+num_nodes_layer2 = 300
 
 # weights of the neurons
-#W = tf.Variable(tf.zeros([768, 10]))
-#b = tf.Variable(tf.zeros([10]))
+W1 = tf.Variable(tf.random_normal([input_size, num_nodes_layer1], stddev=35))
+b1 = tf.Variable(tf.random_normal([num_nodes_layer1], stddev=35))
 
 
-W = tf.Variable(tf.random_normal([768, 10], stddev=35))
-b = tf.Variable(tf.random_normal([10], stddev=35))
+# weights of the neurons in second layer
+W2 = tf.Variable(tf.random_normal([num_nodes_layer1,num_nodes_layer2], stddev=0.35))
+b2 = tf.Variable(tf.random_normal([num_nodes_layer2], stddev=0.35))
 
+
+# weights of the neurons in third layer
+W3 = tf.Variable(tf.random_normal([num_nodes_layer2,label_size], stddev=0.35))
+b3 = tf.Variable(tf.random_normal([label_size], stddev=0.35))
 
 # output of the network
-y_estimated = tf.nn.softmax(tf.matmul(x, W) + b)
+layer1 = tf.nn.softmax(tf.matmul(x, W1) + b1)
+layer2 = tf.nn.softmax(tf.matmul(layer1, W2) + b2)
+y_estimated = tf.nn.softmax(tf.matmul(layer2, W3) + b3)
 
 
 # function to measure the error
@@ -64,7 +77,7 @@ correct_prediction = tf.equal(tf.argmax(y_estimated,1), tf.argmax(y_,1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 
-# In[12]:
+# In[4]:
 
 ######################## training the model #######################################
 

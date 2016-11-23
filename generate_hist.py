@@ -37,6 +37,11 @@ def hist(img):
 
     return hist_R, hist_G, hist_B
 
+def hist_gray(img):
+    hist,_ = np.histogram(np.array(img).flatten(), bins=256)
+    return hist
+
+
 # plot images
 def draw_hist(img):
 
@@ -65,21 +70,24 @@ def draw_hist(img):
 
 # standardize a list
 def standardize(data):
-    # data[0] = 0  <<<<<< PROBLEMAS AQUI
+    data[0] = 0
     mean = np.mean(data)
     std = np.std(data)
     return (data - mean)/std
 
 # create a feature vector concatenating each image
-def generate_vector(img_path, filter=None):
+def generate_vector(img_path, filter=None, togray=False):
     img = cv2.imread(img_path)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     if filter is not None:
         img = filter(img)
-    hist_R, hist_G, hist_B = hist(img)
-    feature_vec = np.hstack( [standardize(hist_R), standardize(hist_G), standardize(hist_B)])
-
-    return feature_vec
+    if not togray:
+        hist_R, hist_G, hist_B = hist(img)
+        feature_vec = np.hstack( [standardize(hist_R), standardize(hist_G), standardize(hist_B)])
+        return feature_vec.tolist()
+    else:
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+        return standardize(hist_gray(img)).tolist()
 
 def save_as_json(X, y, seed=42):
     # randomizing positions
