@@ -26,7 +26,7 @@ def get_sample(num_samples, X_data, y_data):
     return X_sample, y_sample
 
 
-# In[3]:
+# In[6]:
 
 ######################## creating the model architecture #######################################
 
@@ -41,8 +41,8 @@ x = tf.placeholder(tf.float32, [None, input_size])
 # output placeholder
 y_ = tf.placeholder(tf.float32, [None, label_size])
 
-num_nodes_layer1 = 500
-num_nodes_layer2 = 300
+num_nodes_layer1 = 10
+num_nodes_layer2 = 100
 
 # weights of the neurons
 W1 = tf.Variable(tf.random_normal([input_size, num_nodes_layer1], stddev=35))
@@ -77,7 +77,7 @@ correct_prediction = tf.equal(tf.argmax(y_estimated,1), tf.argmax(y_,1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 
-# In[4]:
+# In[7]:
 
 ######################## training the model #######################################
 
@@ -91,8 +91,8 @@ sess.run(init)
 
 
 
-num_batch_trainning = 100
-for i in range(10000): # trainning 1000 times
+num_batch_trainning = 500
+for i in range(10000): # trainning 100000 times
 
     # randomizing positions
     X_sample, y_sample = get_sample(num_batch_trainning, X_train, y_train)

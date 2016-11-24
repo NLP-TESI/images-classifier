@@ -89,27 +89,32 @@ def generate_vector(img_path, filter=None, togray=False):
         img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
         return standardize(hist_gray(img)).tolist()
 
-def save_as_json(X, y, seed=42):
+def save_as_json(X, y, y_label, seed=42):
     # randomizing positions
     np.random.seed(seed)
     np.random.shuffle(X)
     np.random.seed(seed)
     np.random.shuffle(y)
+    np.random.seed(seed)
+    np.random.shuffle(y_label)
 
 
     # spliting the dataset in thee groups
     outputjson = {
         "train": {
             "X": X[:8000],
-            "y": y[:8000]
+            "y": y[:8000],
+            "label": y_label[:8000]
         },
         "validation":{
             "X": X[8000: 9000],
-            "y": y[8000: 9000]
+            "y": y[8000: 9000],
+            "label": y_label[8000: 9000]
         },
         "test":{
             "X": X[9000: ],
-            "y": y[9000: ]
+            "y": y[9000: ],
+            "label": y_label[9000: ]
         }
     }
 
