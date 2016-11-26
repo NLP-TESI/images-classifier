@@ -60,6 +60,11 @@ train_size = int(total*0.8) # 80% of data to train
 validation_size = int(total*0.1) # 10% of data to validation and test
 start_validation = train_size + validation_size
 
+print "train: ", train_size
+print "validation: ", validation_size
+print "test: ", total - (train_size + validation_size)
+
+
 data = {
     "train": {
         "X": X[:train_size],
@@ -82,7 +87,7 @@ data = {
 # In[ ]:
 
 # train all descriptors of group of train using k-means
-number_of_features = 5 # this value can be change to improve the accuracy
+number_of_features = 20 # this value can be change to improve the accuracy
 kmeans = KMeans(n_clusters=number_of_features)
 descriptors = []
 count = 0

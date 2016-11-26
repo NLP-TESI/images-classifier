@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 from generate_hist import *
 
@@ -14,14 +14,14 @@ import json
 from sift import *
 
 
-# In[2]:
+# In[ ]:
 
 def myFilter(img):
     img_gauss1 = cv2.GaussianBlur(img,(5,5), 1)
     return cv2.GaussianBlur(img_gauss1,(5,5), 1)
 
 
-# In[3]:
+# In[ ]:
 
 # 5) processing image dataset to generate a feature vec
 test_folder = "./img/cifar-10/test"
