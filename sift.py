@@ -24,18 +24,29 @@ class RootSIFT:
         # return a tuple of the keypoints and descriptors
         return (kps, descs)
 
-def get_descriptors_from_img(image_file_name):
+def get_descriptors_from_img(image_file_name, root_sift=True, filter_img=None):
     # load the image we are going to extract descriptors from and convert
-    # it to grayscale
     image = cv2.imread(image_file_name)
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     
-    # detect Difference of Gaussian keypoints in the image
-    detector = cv2.xfeatures2d.SIFT_create()
-    kps = detector.detect(gray)
+    if filter_img is not None:
+        img = filter_img(image)
+        if img is not None:
+            image = img
+    
+    if root_sift:
+        # it to grayscale
+        gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
 
-    # extract RootSIFT descriptors
-    rs = RootSIFT()
-    kps,descs = rs.compute(gray, kps)
+        # detect Difference of Gaussian keypoints in the image
+        detector = cv2.xfeatures2d.SIFT_create()
+        kps = detector.detect(gray)
+
+        # extract RootSIFT descriptors
+        rs = RootSIFT()
+        (_,descs) = rs.compute(gray, kps)
+    else:
+        extractor = cv2.xfeatures2d.SIFT_create()
+        (_, descs) = extractor.detectAndCompute(image, mask=None)
     
     return descs

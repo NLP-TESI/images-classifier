@@ -28,7 +28,7 @@ for name in class_names:
 
     # transform each file of image into a list of descriptors
     for file_name in files:
-        descs = get_descriptors_from_img(images_folder+"/"+name+"/"+file_name)
+        descs = get_descriptors_from_img(images_folder+"/"+name+"/"+file_name, root_sift=False, filter_img=None)
         if descs is None:
             continue
         X.append(descs)
